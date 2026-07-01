@@ -2,6 +2,7 @@ import vk_api
 from vk_api.longpoll import VkLongPoll, VkEventType
 import random
 import os
+import json
 
 # Токен из переменной окружения
 TOKEN = os.getenv("VK_TOKEN")
@@ -16,12 +17,14 @@ longpoll = VkLongPoll(vk_session)
 
 # Функция для отправки сообщения
 def send_message(user_id, text, keyboard=None):
-    vk.messages.send(
-        user_id=user_id,
-        message=text,
-        random_id=random.randint(1, 2**31),
-        keyboard=keyboard
-    )
+    params = {
+        "user_id": user_id,
+        "message": text,
+        "random_id": random.randint(1, 2**31)
+    }
+    if keyboard:
+        params["keyboard"] = json.dumps(keyboard)
+    vk.messages.send(**params)
 
 # Клавиатура для главного меню (кнопки)
 def get_main_keyboard():
