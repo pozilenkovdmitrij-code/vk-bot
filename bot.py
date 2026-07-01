@@ -23,7 +23,7 @@ def send_message(user_id, text, keyboard=None):
         "random_id": random.randint(1, 2**31)
     }
     if keyboard:
-        params["keyboard"] = json.dumps(keyboard)
+        params["keyboard"] = json.dumps(keyboard, ensure_ascii=False)
     vk.messages.send(**params)
 
 # Клавиатура для главного меню (кнопки)
